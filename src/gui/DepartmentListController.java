@@ -40,7 +40,7 @@ public class DepartmentListController implements Initializable {
 	private TableColumn<Department, String> tableColumnName;
 	
 	@FXML
-	private Button btNew;
+	private Button btInsert;
 	
 	private ObservableList<Department> obsList;
 	
@@ -77,25 +77,26 @@ public class DepartmentListController implements Initializable {
 		tableViewDepartment.setItems(obsList);
 	}
 	
-	public void createDialogForm(Department obj, String absoluteName, Stage parenStage) {
+	private void createDialogForm(Department obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
 			
 			DepartmentFormController controller = loader.getController();
 			controller.setDepartment(obj);
+			controller.setDepartmentService(new DepartmentService());
 			controller.updateFormData();
-					
+			
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Enter Department data");
 			dialogStage.setScene(new Scene(pane));
 			dialogStage.setResizable(false);
-			dialogStage.initOwner(parenStage);
+			dialogStage.initOwner(parentStage);
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
-			}
+		}
 		catch (IOException e) {
-			Alerts.showAlert("Error", "Error loading view", e.getMessage(), AlertType.ERROR);	
+			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}
 }

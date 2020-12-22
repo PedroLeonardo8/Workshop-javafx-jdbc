@@ -19,7 +19,7 @@
             <Insets bottom="10.0" left="20.0" top="10.0" />
          </padding>
       </Label>
-      <Label prefHeight="52.0" prefWidth="307.0" text="This is a software to regritate sellers and departments." wrapText="true">
+      <Label prefHeight="52.0" prefWidth="307.0" text="This is a software to regristate sellers and departments." wrapText="true">
          <padding>
             <Insets left="20.0" right="10.0" />
          </padding>
