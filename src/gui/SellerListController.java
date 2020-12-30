@@ -45,7 +45,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 
 	@FXML
 	private TableColumn<Seller, String> tableColumnName;
-	
+
 	@FXML
 	private TableColumn<Seller, String> tableColumnEmail;
 	
@@ -54,12 +54,12 @@ public class SellerListController implements Initializable, DataChangeListener {
 	
 	@FXML
 	private TableColumn<Seller, Double> tableColumnBaseSalary;
-
-	@FXML
-	private TableColumn<Seller, Seller> tableColumnEDIT;
 	
 	@FXML
-	TableColumn<Seller, Seller> tableColumnREMOVE;
+	private TableColumn<Seller, Seller> tableColumnEDIT;
+
+	@FXML
+	private TableColumn<Seller, Seller> tableColumnREMOVE;
 
 	@FXML
 	private Button btInsert;
@@ -137,7 +137,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 	private void initEditButtons() {
 		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnEDIT.setCellFactory(param -> new TableCell<Seller, Seller>() {
-			private final Button button = new Button("Edit");
+			private final Button button = new Button("edit");
 
 			@Override
 			protected void updateItem(Seller obj, boolean empty) {
@@ -152,36 +152,37 @@ public class SellerListController implements Initializable, DataChangeListener {
 			}
 		});
 	}
-	
+
 	private void initRemoveButtons() {
 		tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnREMOVE.setCellFactory(param -> new TableCell<Seller, Seller>() {
-		private final Button button = new Button("remove");
-		@Override
-		protected void updateItem(Seller obj, boolean empty) {
-		super.updateItem(obj, empty);
-		if (obj == null) {
-		setGraphic(null);
-		return;
-		}
-		setGraphic(button);
-		button.setOnAction(event -> removeEntity(obj));
-		}
+			private final Button button = new Button("remove");
+
+			@Override
+			protected void updateItem(Seller obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(event -> removeEntity(obj));
+			}
 		});
-		}
+	}
 
 	private void removeEntity(Seller obj) {
-		Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure to delete?"); 
-		
-		if(result.get() == ButtonType.OK) {
-			if(service ==null) {
-				throw new IllegalStateException("Sevice was null");
+		Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure to delete?");
+
+		if (result.get() == ButtonType.OK) {
+			if (service == null) {
+				throw new IllegalStateException("Service was null");
 			}
 			try {
 				service.remove(obj);
 				updateTableView();
 			}
-			catch(DbIntegrityException e) {
+			catch (DbIntegrityException e) {
 				Alerts.showAlert("Error removing object", null, e.getMessage(), AlertType.ERROR);
 			}
 		}
